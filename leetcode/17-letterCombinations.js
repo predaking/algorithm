@@ -14,18 +14,56 @@
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
-	const map = new Map([
-		['2', ['a', 'b', 'c']],
-		['3', ['d', 'e', 'f']],
-		['4', ['g', 'h', 'i']],
-		['5', ['j', 'k', 'l']],
-		['6', ['m', 'n', 'o']],
-		['7', ['p', 'q', 'r', 's']],
-		['8', ['t', 'u', 'v']],
-		['9', ['w', 'x', 'y', 'z']],
-	]);
+    if (!digits) {
+         return [];
+    }
 
-	
+    // 补全4位
+ 	const map = new Map([
+ 		['2', ['a', 'b', 'c', '']],
+ 		['3', ['d', 'e', 'f', '']],
+ 		['4', ['g', 'h', 'i', '']],
+ 		['5', ['j', 'k', 'l', '']],
+ 		['6', ['m', 'n', 'o', '']],
+ 		['7', ['p', 'q', 'r', 's']],
+ 		['8', ['t', 'u', 'v', '']],
+ 		['9', ['w', 'x', 'y', 'z']],
+ 	]);
+
+    const len = digits.length;
+    // 假设加上''的结果数
+    const max = Math.pow(4, len);
+    const res = [];
+
+    for (let i = 0; i < max; ++i) {
+        // 转化为输入字符串长度的4进制，不够长度前面补0
+        const inx = i.toString(4).padStart(len, 0);
+
+        let tmp = '';
+
+        // 遍历4进制字符串，按照每一位上对应的数字从map中寻找对应的字母
+        for (let j = 0; j < inx.length; ++j) {
+            tmp = tmp.concat(map.get(digits.charAt(j))[inx.charAt(j)]);
+        }
+
+        // 候选字符串不够输入字符串长度就舍弃
+        if (tmp.length < len) {
+            continue;
+        } else {
+            res.push(tmp);
+        }
+     }
+
+     return res;
 };
 
-console.log(letterCombinations('23'));
+/**
+ * 测试用例：
+ * console.log(letterCombinations('234'));
+ */
+
+/**
+ * 本题核心： 回溯、队列、进制
+ *
+ * 反思：解决问题先找一般思路
+ */
