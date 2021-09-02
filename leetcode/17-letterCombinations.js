@@ -149,4 +149,39 @@ var letterCombinations = function (digits) {
 	return res;
 }
 
-console.log(letterCombinations('234'));
+/**
+ * @description 队列
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function (digits) {
+    if (!digits) {
+        return [];
+    }
+
+    const map = new Map([
+        ['2', ['a', 'b', 'c']],
+        ['3', ['d', 'e', 'f']],
+        ['4', ['g', 'h', 'i']],
+        ['5', ['j', 'k', 'l']],
+        ['6', ['m', 'n', 'o']],
+        ['7', ['p', 'q', 'r', 's']],
+        ['8', ['t', 'u', 'v']],
+        ['9', ['w', 'x', 'y', 'z']],
+    ]);
+
+    let quene = [''];
+
+    for (let i = 0; i < digits.length; ++i) {
+        const tmp = map.get(digits.charAt(i));
+
+        while (quene[0].length <= i) {
+            for (let j = 0; j < tmp.length; ++j) {
+                quene.push(quene[0] + tmp[j]);
+            }
+            quene.shift();
+        }
+    }
+
+    return quene;
+}
