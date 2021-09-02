@@ -63,7 +63,90 @@ var letterCombinations = function(digits) {
  */
 
 /**
- * 本题核心： 回溯、队列、进制
+ * 本题核心： 回溯、队列、进制、多叉树DFS、动态规划、笛卡尔积
  *
  * 反思：解决问题先找一般思路
  */
+
+/**
+ * @description 电话号码的字母组合
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function (digits) {
+	if (!digits) {
+		return [];
+	}
+
+	const map = new Map([
+		['2', ['a', 'b', 'c']],
+		['3', ['d', 'e', 'f']],
+		['4', ['g', 'h', 'i']],
+		['5', ['j', 'k', 'l']],
+		['6', ['m', 'n', 'o']],
+		['7', ['p', 'q', 'r', 's']],
+		['8', ['t', 'u', 'v']],
+		['9', ['w', 'x', 'y', 'z']],
+	]);
+
+	let res = [''];
+
+	for (let i = 0; i < digits.length; ++i) {
+		const cur = map.get(digits.charAt(i));
+		const tmp = [];
+
+		for (let j = 0; j < cur.length; ++j) {
+			for (let k = 0; k < res.length; ++k) {
+				tmp.push(res[k] + cur[j]);
+			}
+		}
+
+		res = [...tmp];
+	}
+
+	return res;
+}
+
+/**
+ * @description 回溯
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function (digits) {
+	if (!digits) {
+		return [];
+	}
+
+	const map = new Map([
+		['2', ['a', 'b', 'c']],
+		['3', ['d', 'e', 'f']],
+		['4', ['g', 'h', 'i']],
+		['5', ['j', 'k', 'l']],
+		['6', ['m', 'n', 'o']],
+		['7', ['p', 'q', 'r', 's']],
+		['8', ['t', 'u', 'v']],
+		['9', ['w', 'x', 'y', 'z']],
+	]);
+
+	let tmp = '';
+	let res = [];
+
+	const back = (index, tmp) => {
+		if (index === digits.length) {
+			res.push(tmp);
+		} else {
+			const arr = map.get(digits.charAt(index));
+			for (let i = 0; i < arr.length; ++i) {
+				tmp += arr[i];
+				back(index + 1, tmp);
+				tmp = tmp.slice(0, -1);
+			}
+		}
+	}
+
+	back(0, tmp);
+
+	return res;
+}
+
+console.log(letterCombinations('234'));
