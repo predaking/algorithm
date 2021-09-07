@@ -24,30 +24,18 @@ var fourSum = function(nums, target) {
             continue;
         }
 
-        if (arr[i] >= target || i > len - 4) {
-            break;
-        }
-
         for (let j = i + 1; j < len; ++j) {
-            if (j > i && arr[j] === arr[j - 1]) {
+            if (j > i + 1 && arr[j] === arr[j - 1]) {
                 continue;
-            }
-
-            if (arr[j] >= target - arr[i] || j > len - 3) {
-                break;
             }
 
             let restSum = target - arr[i] - arr[j];
             let left = j + 1;
             let right = len - 1;
 
-            // console.log('reat: ', left, right);
-
-            let tmpSum = arr[left] + arr[right];
-
-            console.log('reat: ', restSum, tmpSum);
-
             while (left < right) {
+                const tmpSum = arr[left] + arr[right];
+
                 if (tmpSum > restSum) {
                     --right;
                     while (arr[right] === arr[right + 1]) {
@@ -59,7 +47,6 @@ var fourSum = function(nums, target) {
                         ++left;
                     }
                 } else {
-                    console.log(restSum, tmpSum, [arr[i], arr[j], arr[left], arr[right]])
                     res.push([arr[i], arr[j], arr[left], arr[right]]);
                     ++left;
                     while (arr[left] === arr[left - 1]) {
@@ -73,7 +60,13 @@ var fourSum = function(nums, target) {
     return res;
 };
 
-console.log(fourSum([1,0,-1,0,-2,2], 0));
+/**
+ * 测试用例：
+ * console.log(fourSum([1,-2,-5,-4,-3,3,3,5], -11));
+ */
 
-// -2 -1 0 0 1 2
-// 1 1 1 1 1 1 4
+/**
+ * 本题核心： 双指针、回溯（递归）
+ *
+ * 反思：扩展联想多数之和如何实现
+ */
