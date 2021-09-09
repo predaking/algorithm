@@ -47,6 +47,7 @@ var swapPairs = function(head) {
 
 	return res.next;
 };
+
 /**
  * 测试用例：
  * console.log(swapPairs(node4));
