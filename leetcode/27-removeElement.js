@@ -11,30 +11,40 @@
  * @return {number}
  */
 var removeElement = function(nums, val) {
-	let head = null;
-	let index = 0;
+    if (!nums.length) {
+         return 0;
+     }
 
-	while (nums[index] === val) {
-		if (!head && head !== 0) {
-			head = index;
-		}
-		++index;
-	}
+ 	let head = 0;
+ 	let index = 0;
 
-	for (let i = index; i < nums.length; ++i) {
-		if (nums[i] === val) {
-			[nums[index], nums[i]] = [nums[i], nums[index]];
-			++index;
-		}
-	}
+ 	while (!head && head !== 0 && index < nums.length) {
+         if (nums[index] === val) {
+             head = index;
+             break;
+         }
+         ++index;
+ 	}
 
-	console.log(index, head);
+ 	for (let i = index; i < nums.length; ++i) {
+ 		if (nums[i] === val) {
+ 			[nums[index], nums[i]] = [nums[i], nums[index]];
+ 			++index;
+ 		}
+ 	}
 
-	nums.splice(head, index - head);
-	console.log(nums);
+ 	nums.splice(head, index - head);
 
-	return nums.length;
+ 	return nums.length;
 };
 
-// console.log(removeElement([3, 2, 2, 3], 3));
-console.log(removeElement([1, 3, 3, 2, 2, 3, 5, 7, 3, 3, 3, 3, 3, 9], 3));
+/**
+ * 测试用例：
+ * console.log(removeElement([1, 3, 3, 2, 2, 3, 5, 7, 3, 3, 3, 3, 3, 9], 3));
+ */
+
+/**
+ * 本题核心： 快慢指针
+ *
+ * 反思：实现空间复杂度O(1)基本是在原数组中交换位置
+ */
