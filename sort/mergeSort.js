@@ -32,7 +32,7 @@ const mergeSort = arr => {
 }
 
 /**
- * 时间复杂度：O(n^1.3) 空间复杂度O() 稳定排序
+ * 时间复杂度：O(nlogn) 空间复杂度O(n) 稳定排序
  */
 
 console.log(mergeSort([2, 0, 0, -1, 3, 5, 1, 2, 9, 8, 9, 5]));
