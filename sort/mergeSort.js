@@ -2,15 +2,14 @@
  * @description 归并排序
  * @param {array} arr
  */
-const mergeSort = function (arr) {
+const mergeSort = arr => {
     const len = arr.length;
-    console.log(arr);
 
     if (len <= 1) {
         return arr;
     }
 
-    const merge = function (arr1, arr2) {
+    const merge = (arr1, arr2) => {
         if (!arr1.length) {
             return arr2;
         }
@@ -19,14 +18,17 @@ const mergeSort = function (arr) {
             return arr1;
         }
 
-        if (arr1[0] > arr2[0]) {
-            return [arr2[0], arr1[0]];
+        if (arr1[0] >= arr2[0]) {
+            return [arr2[0], ...merge(arr1, arr2.slice(1))];
         }
 
-        return [arr1[0], arr2[0]];
+        return [arr1[0], ...merge(arr1.slice(1), arr2)];
     }
 
-    return mergeSort(merge(arr.slice(0, Math.floor(len / 2)), arr.slice(Math.floor(len / 2))));
+    const arr1 = arr.slice(0, Math.floor(len / 2));
+    const arr2 = arr.slice(Math.floor(len / 2));
+
+    return merge(mergeSort(arr1), mergeSort(arr2));
 }
 
 /**
