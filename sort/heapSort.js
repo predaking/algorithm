@@ -13,15 +13,11 @@ const heapSort = arr => {
         initHeap(arr, i, len);
     }
 
-    [arr[0], arr[len - 1]] = [arr[len - 1], arr[0]];
-    --len;
-
-    for (let i = len - 1; i > 0; --i) {
-        [arr[0], arr[i]]
-        initHeap(arr, i, len)
+    for (let i = arr.length - 1; i > 0; --i) {
+        [arr[0], arr[i]] = [arr[i], arr[0]];
+        --len;
+        initHeap(arr, 0, len);
     }
-
-    console.log(arr);
 
     return arr;
 }
@@ -41,12 +37,13 @@ const initHeap = (arr, i, len) => {
         largest = right;
     }
 
-    console.log(arr[largest]);
-
     if (largest !== i) {
-        [arr[largest], arr[i]] = [arr[i], arr[largest]];
-        initHeap(arr, largest);
+        initHeap(arr, largest, len);
     }
 }
+
+/**
+ * 时间复杂度：O(nlogn) 空间复杂度O(1) 不稳定排序
+ */
 
 console.log(heapSort([2, 0, -3, 1, 9, 8, 5, -2, 9]));
