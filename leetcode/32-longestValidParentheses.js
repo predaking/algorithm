@@ -20,16 +20,28 @@ var longestValidParentheses = function(s) {
 
 	while (i < len) {
 		stack.push(s.charAt(i));
+		let lenCounter = 0;
 
-		while (stack[stack.length - 1] !== ')' && j < len) {
+		while ((stack[stack.length - 1] !== ')' || stack.length === 0) && j < len) {
+
 			if (s.charAt(j) === '(') {
 				stack.push(s.charAt(j));
 			} else {
-				stack.pop();
+				if (stack.length) {
+					stack.pop();
+				} else {
+					stack.push(s.charAt(j));
+				}
 			}
 
-			max = Math.max(j - i + 1, max);
+			lenCounter = j - i + 1;
 			++j;
+		}
+
+		if (stack.length) {
+			max = Math.max(max, lenCounter - stack.length);
+		} else {
+			max = Math.max(max, lenCounter);
 		}
 
 		stack.length = 0;
@@ -41,4 +53,5 @@ var longestValidParentheses = function(s) {
 	return max;
 };
 
-console.log(longestValidParentheses(')()('));
+// console.log(longestValidParentheses(')()())'));
+console.log(longestValidParentheses('()(()'));
