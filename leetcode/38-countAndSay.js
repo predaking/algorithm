@@ -99,3 +99,28 @@ var countAndSay = n => {
 
     return res;
 }
+
+/**
+ * @description 外观数列（递归）
+ * @param {number} n
+ * @return {string}
+ */
+var countAndSay = n => {
+    if (n === 1) {
+        return '1';
+    }
+
+    let i = 0, cur = 0;
+    let tmp = '';
+    const lastStr = countAndSay(n - 1);
+    while (i < lastStr.length && cur < lastStr.length) {
+        if (lastStr[i] === lastStr[cur]) {
+            ++i;
+            continue;
+        }
+        tmp += (i - cur) + lastStr[cur];
+        cur = i;
+    }
+    tmp += (i - cur) + lastStr[cur];
+    return tmp;
+}
