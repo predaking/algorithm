@@ -14,7 +14,56 @@
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
+    if (!candidates.length) {
+        return [];
+    }
 
+    const len = candidates.length;
+    const res = [];
+    const cur = [];
+    let sum = 0;
+
+    candidates.sort((a, b) => a - b);
+
+    const backTrack = sum => {
+        if (sum === target) {
+            res.push([...cur]);
+        }
+
+        for (let i = 0; i < len; ++i) {
+            if (candidates[i] < cur[cur.length - 1]) {
+                continue;
+            }
+
+            cur.push(candidates[i]);
+
+            sum += candidates[i];
+
+            if (sum > target) {
+                cur.pop();
+                sum -= candidates[i];
+                break;
+            }
+
+            backTrack(sum);
+            cur.pop();
+            sum -= candidates[i];
+        }
+    }
+
+    backTrack(sum);
+
+    return res;
 };
 
-console.log(combinationSum());
+/**
+ * 测试用例：
+ * console.log(combinationSum([2, 3, 6, 7], 7));
+ */
+
+/**
+ * 本题核心： 深度优先搜索（回溯）
+ *
+ * 反思：dfs相关的算法需要注意剪枝，剪枝的前提基本会涉及排序，另需要注意边界的处理，循环遍历
+ * 是需要写到回溯方法里面的
+ */
