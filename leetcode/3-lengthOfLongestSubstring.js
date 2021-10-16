@@ -13,7 +13,7 @@ var lengthOfLongestSubstring = function(s) {
 
 	for (let i = 0; i < s.length; i++) {
 		// includes方法时间复杂度为O(n)，不建议使用
-		if (!quene.includes(s[])) {
+		if (!quene.includes(s[i])) {
 			quene.push(s[i]);
 			maxLen = Math.max(maxLen, quene.length);
 		} else {

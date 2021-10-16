@@ -39,7 +39,8 @@ const obj = {
         },
         'a',
         3
-    ]
+    ],
+    d: [1, 3]
 }
 
 // obj.__proto__ = Object;
