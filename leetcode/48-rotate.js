@@ -14,7 +14,34 @@
  * @return {void} Do not return anything, modify matrix in-place instead.
  */
 var rotate = function(matrix) {
+	const sideLen = matrix.length;
 
+	for (let i = 0; i < sideLen; ++i) {
+		matrix[i].reverse();
+	}
+
+	for (let i = 0; i < sideLen; ++i) {
+		for (let j = 0; j < sideLen - i; ++j) {
+			const row = sideLen - i - 1;
+			const col = sideLen - j - 1;
+			[matrix[i][j], matrix[col][row]] = [matrix[col][row], matrix[i][j]];
+		}
+	}
+
+	return matrix;
 };
 
-console.log(rotate([[1, 2, 3], [4, 5, 6], [7, 8, 9]]));
+/**
+ * 测试用例：
+ * console.log(rotate([
+ 	[1, 2, 3],
+ 	[4, 5, 6],
+ 	[7, 8, 9]
+ ]));
+ */
+
+/**
+ * 本题核心： 矩阵对称
+ *
+ * 反思：矩阵转换要往轴对称&中心对称上靠，思维要开阔
+ */
