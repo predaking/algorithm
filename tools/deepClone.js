@@ -1,3 +1,8 @@
+/**
+ * 深拷贝
+ * @method deepClone
+ * @param {object} obj
+ */
 const deepClone = obj => {
     if (typeof obj !== 'object') {
         return obj;
