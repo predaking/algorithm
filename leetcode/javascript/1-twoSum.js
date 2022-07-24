@@ -32,7 +32,7 @@ var twoSum = function(nums, target) {
 
 /**
  * 测试用例：
- * console.log(twoSum([2, 7, 11, 15], 9));
+ * console.log(twoSum([2, 7, 15, 11], 9));
  */
 
 /**

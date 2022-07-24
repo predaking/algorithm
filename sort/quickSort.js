@@ -2,17 +2,17 @@
  * @description 快速排序
  * @param {array} arr
  */
-const quickSort = arr => {
-    if (arr.length <= 1) {
-        return arr;
-    }
+// const quickSort = arr => {
+//     if (arr.length <= 1) {
+//         return arr;
+//     }
 
-    const pivot = arr[0];
+//     const pivot = arr[0];
 
-    const rest = arr.slice(1);
+//     const rest = arr.slice(1);
 
-    return [...quickSort(rest.filter(item => item <= pivot)), pivot, ...quickSort(rest.filter(item => item > pivot))];
-}
+//     return [...quickSort(rest.filter(item => item <= pivot)), pivot, ...quickSort(rest.filter(item => item > pivot))];
+// }
 
 /**
  * 时间复杂度：O(nlogn) 空间复杂度O(logn) 不稳定排序
@@ -34,7 +34,6 @@ const partition = (arr, low, high) => {
     }
 
     arr[low] = pivot;
-
     return low;
 }
 
