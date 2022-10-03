@@ -9,7 +9,7 @@ function Girl () {
 	}
 }
 
-const girl = new Girl();
+// const girl = new Girl();
 
 function _new (Fn, args) {
 	const res = Object.create(Fn.prototype);
@@ -17,7 +17,7 @@ function _new (Fn, args) {
 	return res;
 }
 
-const newGirl = _new (Girl);
-const test = Girl ();
+// const newGirl = _new (Girl);
+// const test = Girl ();
 
-console.log(girl, newGirl, test);
+// console.log(girl, newGirl, test);
