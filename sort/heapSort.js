@@ -47,3 +47,8 @@ const initHeap = (arr, i, len) => {
  */
 
 console.log(heapSort([2, 0, -3, 1, 9, 8, 5, -2, 9]));
+
+//       9
+//     9   8
+//   1  2 -3 5
+// -2 0

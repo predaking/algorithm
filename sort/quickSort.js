@@ -57,5 +57,5 @@ const quickSort = arr => {
     return arr;
 }
 
-console.log(quickSort([2, -9, 0, 4, 3, 7, 9, 2, 2, 1, -4]));
+console.log(quickSort([2, -9, 0, 4, 3, 7, 9, 8, 2, 2, 1, -4]));
 

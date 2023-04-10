@@ -1,6 +1,8 @@
 /**
  * 1、构造二叉搜索树
  * 2、遍历二叉树（前中后序、层级）
+ * 3、平衡树判断
+ * 4、等价树判断
  */
 
 /**
@@ -155,11 +157,51 @@ function levelTraverseMultiTree(root) {
     return res;
 }
 
+/**
+ * @description 平衡树判断
+ * @param {object} root 
+ */
+function judgeIsBalanceTree (root) {
+    if (!root) {
+        return true;
+    }
+
+    function getLevel(root) {
+        if (!root) {
+            return 0;
+        }
+        return Math.max(getLevel(root.left), getLevel(root.right)) + 1;
+    }
+
+    var rootIsBalance = Math.abs(getLevel(root.left) - getLevel(root.right)) <= 1;
+
+    return rootIsBalance && judgeIsBalanceTree(root.left) && judgeIsBalanceTree(root.right);
+}
+
+/**
+ * @description 判断两棵树是否等价
+ * @param {*} root1 
+ * @param {*} root2 
+ */
+function judgeIsSameTree (root1, root2) {
+    if (!root1 && !root2) {
+        return true;
+    }
+
+    return (
+        judgeIsSameTree(root1.left, root2.left) 
+            && judgeIsSameTree(root1.right, root2.right)
+            && root1.val === root2.val
+    )
+}
+
 module.exports = {
     createTree,
     preorderTraverseTree,
     inorderTraverseTree,
     postorderTraverseTree,
     levelTraverseTree,
-    levelTraverseMultiTree
+    levelTraverseMultiTree,
+    judgeIsBalanceTree,
+    judgeIsSameTree
 };
