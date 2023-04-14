@@ -35,7 +35,6 @@ var merge = function(intervals) {
                 intervals[j] = null;
                 --i;
             }
-
         }
     }
 
