@@ -4,6 +4,7 @@
  */
 
 /**
+ * @description 最后一个单词的长度
  * @param {string} s
  * @return {number}
  */
