@@ -9,26 +9,40 @@
  * @return {number}
  */
 var minPathSum = function(grid) {
+    var m = grid.length;
+    var n = grid[0].length;
 
+    if (m === 0) {
+        return 0;
+    }
+
+    for (let i = 0; i < m; ++i) {
+        for (let j = 0; j < n; ++j) {
+            if (i === 0 && j === 0) {
+                continue;
+            }
+            if (j === 0) {
+                grid[i][0] += grid[i - 1][0];
+                continue;
+            }
+            if (i === 0) {
+                grid[0][j] += grid[0][j - 1];
+                continue;
+            }
+            grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);
+        }
+    }
+
+    return grid[m - 1][n - 1];
 };
 
 /**
  * 测试用例：
- * console.log(minPathSum([[0, 0, 0], [0, 1, 0], [0, 0, 0]]));
+ * console.table(minPathSum([[1, 3, 1], [1, 5, 1], [4, 2, 1]]));
  */
 
 /**
- * 本题核心：
+ * 本题核心：动态规划
  *
- * 反思：
- */
-
-/**
- * 1 3 1
- * 1 5 1
- * 4 2 1
- * 
- * 1 4 5
- * 2 7 6
- * 6 8 7
+ * 反思：本题即便不了解动态规划也是很容易想到如何一步一步获得当前最短路径
  */
