@@ -11,20 +11,36 @@
  * @return {number}
  */
 var mySqrt = function(x) {
+    if (x === 1) {
+        return 1;
+    }
 
+    let start = 0;
+    let end = x;
+    let mid = Math.floor((start + end) / 2);
+    
+    while (start < end) {
+        mid = Math.floor((start + end) / 2);
+        if (mid * mid < x) {
+            start = (mid === start ? mid + 1 : mid);
+        } else if (mid * mid > x) {
+            end = (mid === end ? mid - 1 : mid);
+        } else {
+            break;
+        }
+    }
+
+    return mid;
 };
 
 /**
  * 测试用例：
- * console.log(fullJustify(["This", "is", "an", "example", "of", "text", "justification."], 16));
- * console.log(fullJustify(["What", "must", "be", "acknowledgment", "shall", "be"], 16));
- * console.log(fullJustify(["Science", "is", "what", "we", "understand", "well", "enough", "to", "explain", "to", "a", "computer.", "Art", "is", "everything", "else", "we", "do"], 20));
- * console.log(fullJustify(["ask","not","what","your","country","can","do","for","you","ask","what","you","can","do","for","your","country"], 16));
+ * console.log(mySqrt(1));
  */
 
 /**
- * 本题核心：无
+ * 本题核心：二分查找、数学计算
  *
- * 反思：常规思路，先算出一行最多能容纳几个单词，这样空隙数就是单词数减一，
- * 之后依次计算空格最大间距，并拼到当前遍历的单词后。
+ * 反思：常规思路二分查找，需要注意边界处理防止死循环；另外官方还有通过对数换底
+ * 的思路直接计算结果；还有牛顿迭代法（原理较难，参考官方题解）
  */
