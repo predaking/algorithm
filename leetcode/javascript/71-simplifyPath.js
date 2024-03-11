@@ -18,40 +18,129 @@
 /**
  * @description 简化路径
  * @param {string} path
- * @return {string}
  */
 var simplifyPath = function(path) {
+    if (path[path.length - 1] === '.') {
+        path += '/';
+    }
     var str = '';
     var len = path.length;
 
-    for (let i = 0; i < len; ++i) {
-        if (i === 0 && path[i] !== '/') {
-            str += '/';
+    function sliceStr() {
+        if (str[str.length - 1] === '/') {
+            str = str.slice(0, -1);
         }
+        var _str = str;
+        for (let i = str.length - 1; i >= 0; --i) {
+            if (str[i] !== '/') {
+                _str = _str.slice(0, -1);
+            } else {
+                break;
+            }
+        }
+        str = _str;
+    }
 
-        if (i + 1 < len && path[i] === '/' && path[i + 1] === '/') {
+    for (let i = 0; i < len; ++i) {
+        if (str.length === 0 && path[i] !== '/') {
+            str += '/';
+            str += path[i];
             continue;
         }
 
-        if (path[i] !== '/' && path[i] !== '.') {
-            str += path[i];
+        if (i + 3 < len
+            && path[i] === '/'
+            && path[i + 1] === '.'
+            && path[i + 2] === '.'
+            && path[i + 3] === '/'
+        ) {
+            sliceStr(str);
+            if (str[str.length - 1] !== '/') {
+                str += '/';
+            }
+            i += 2;
+            continue;
         }
 
-        if (
-            i + 2 < path.length 
-                && path[i] === '.' 
-                && path[i + 1] === '.'
-                && path[i + 2] === '.'
-            ) 
-        {
-            str += path[i];
+        if (i + 2 < len
+            && path[i] === '/'
+            && path[i + 1] === '.'
+            && path[i + 2] === '/'
+        ) {
+            if (str[str.length - 1] !== '/') {
+                str += '/';
+            }
+            i += 1;
+            continue;
         }
+
+        if (path[i] === '/') {
+            if (str[str.length - 1] === '/') {
+                continue;
+            } else if (i !== len - 1) {
+                str += '/';
+            }
+            continue;
+        }
+
+        str += path[i];
+    }
+
+    if (!str.length) { return '/'; }
+
+    if (str.length > 1 && str[str.length - 1] === '/') {
+        return str.slice(0, -1);
     }
 
     return str;
 };
 
-console.log(simplifyPath('/home/'));
-console.log(simplifyPath('/../'));
-console.log(simplifyPath('/home//foo/'));
-console.log(simplifyPath('/a/./b/../../c/')); // /a/b/c
+/**
+ * 测试用例：
+ * console.log(simplifyPath('/a/./b/../../c/')); // /c
+ * console.log(simplifyPath('/home/')); // /home
+ * console.log(simplifyPath('/../')); // /
+ * console.log(simplifyPath('/home//foo/')); // /home/foo
+ * console.log(simplifyPath('/a/../../b/../c//.//')); // /c
+ * console.log(simplifyPath('/a//b////c/d//././/..')); // /a/b/c
+ * console.log(simplifyPath('/..hidden')); // /..hidden
+ * console.log(simplifyPath('/.hidden')); // /.hidden
+ */
+
+/**
+ * 本题核心：栈
+ *
+ * 反思：写法想的太复杂了，其实想通问题之后直接采用split方式
+ * 拆为栈就简单多了
+ */
+
+/**
+ * @description 官方做法
+ * @param {string} path
+ */
+var simplifyPath = function (path) {
+    var stack = [];
+    var names = path.split('/');
+
+    for (let i = 0; i < names.length; ++i) {
+        if (!names[i] || names[i] === '.') {
+            continue;
+        }
+
+        if (names[i] == '..') {
+            stack.pop();
+        } else {
+            stack.push(names[i]);
+        }
+    }
+
+    var str = stack.join('/');
+
+    if (str[0] !== '/') {
+        str = '/' + str;
+    }
+
+    return str;
+}
+
+
