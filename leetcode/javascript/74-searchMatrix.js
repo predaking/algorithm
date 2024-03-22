@@ -18,22 +18,29 @@ var searchMatrix = function (matrix, target) {
     let rightIndex = m - 1;
     let mid = Math.floor((leftIndex + rightIndex) / 2);
 
-    while (leftIndex < rightIndex) {
-        if (target < matrix[mid][0]) {
+    while (leftIndex <= rightIndex) {
+        let midValue = matrix[mid][0];
+        if (target < midValue) {
             rightIndex = Math.floor((leftIndex + rightIndex) / 2) - 1;
-        } else if (target > matrix[mid][0]) {
+        } else if (target > midValue) {
             leftIndex = Math.floor((leftIndex + rightIndex) / 2) + 1;
         } else {
             return true;
         }
+        mid = Math.floor((leftIndex + rightIndex) / 2);
     }
 
     let rowIndex = leftIndex;
+
+    if (leftIndex > m - 1 || (target < matrix[leftIndex][0] && leftIndex > 0)) {
+        rowIndex = leftIndex - 1;
+    }
+
     leftIndex = 0;
     rightIndex = n - 1;
     mid = Math.floor((leftIndex + rightIndex) / 2);
 
-    while (leftIndex < rightIndex) {
+    while (leftIndex <= rightIndex) {
         if (target < matrix[rowIndex][mid]) {
             rightIndex = Math.floor((leftIndex + rightIndex) / 2) - 1;
         } else if (target > matrix[rowIndex][mid]) {
@@ -41,22 +48,20 @@ var searchMatrix = function (matrix, target) {
         } else {
             return true;
         }
+        mid = Math.floor((leftIndex + rightIndex) / 2);
     }
 
     return false;
 };
 
-console.log(searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 34))
-
 /**
  * 测试用例：
- * console.log(setZeroes([[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]]));
+ * console.log(searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 62))
  */
 
 /**
- * 本题核心：无
+ * 本题核心：二分查找
  *
- * 反思：基本的先遍历 + 标记，后遍历 + 修改。原题解有O(1)空间复杂度的方式，
- * 即用第一行第一列来标记存储是否有0，然而如评论所说，为了这点儿空间，代码可
- * 读性变差了。各有道理吧，看注重什么了。
+ * 反思：一维数组查询某数用二分查找，二维数组道理一样，先锁定某个数在哪一行，
+ * 接着再锁定在哪一列。过程中需要特别注意边界
  */
