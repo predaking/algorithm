@@ -34,7 +34,7 @@ console.log(combine(4, 2));
 
 /**
  * 测试用例：
- * console.log(minWindow('cabwefgewcwaefgcf', 'cae'));
+ * console.log(combine(4, 2));
  */
 
 /**
