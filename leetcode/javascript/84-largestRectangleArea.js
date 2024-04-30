@@ -7,7 +7,6 @@
 /**
  * @description 柱状图中最大的矩形
  * @param {number[]} heights
- * @return {number}
  */
 var largestRectangleArea = function (heights) {
     const len = heights.length;
@@ -37,6 +36,7 @@ var largestRectangleArea = function (heights) {
 
     return max;
 };
+
 
 /**
  * 测试用例：
