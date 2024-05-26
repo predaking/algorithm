@@ -16,19 +16,73 @@
  * @param {string} s1
  * @param {string} s2
  */
-var isScramble = function(s1, s2) {
+var isScramble = function (s1, s2) {
+    const len = s1.length;
+    const arr = Array(len).fill(0).map(() => (Array(len).fill(0).map(() => Array(len + 1).fill(0))));
 
+    const check = (i1, i2, len, s1, s2) => {
+        const map = new Map();
+
+        for (let i = i1; i < len; ++i) {
+            map.set(s1[i], (map.get(s1[i]) || 0) + 1);
+        }
+
+        for (let i = i2; i < len; ++i) {
+            map.set(s2[i], (map.get(s2[i]) || 0) - 1);
+        }
+
+        for (let val of map.values()) {
+            if (val) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    const dfs = (i1, i2, len, s1, s2, arr) => {
+        if (arr[i1][i2][len] !== 0) {
+            return arr[i1][i2][len] === 1;
+        }
+
+        if (s1.slice(i1, i1 + len) === s2.slice(i2, i2 + len)) {
+            arr[i1][i2][len] = 1;
+            return true;
+        }
+
+        if (!check(i1, i2, len, s1, s2)) {
+            arr[i1][i2][len] = -1;
+            return false;
+        }
+
+        for (let i = 1; i < len; ++i) {
+            if (dfs(i1, i2, i, s1, s2, arr) && dfs(i1 + i, i2 + i, len - i, s1, s2, arr)) {
+                arr[i1][i2][len] = 1;
+                return true;
+            }
+
+            if (dfs(i1, i2 + len - i, i, s1, s2, arr) && dfs(i1 + i, i2, len - i, s1, s2, arr)) {
+                arr[i1][i2][len] = 1;
+                return true;
+            }
+        }
+
+        arr[i1][i2][len] = -1;
+        return false;
+    }
+
+    return dfs(0, 0, len, s1, s2, arr);
 };
 
 /**
  * 测试用例：
- * console.log(partition(node, 3));
+ * console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
  */
 
 /**
- * 本题核心：无
+ * 本题核心：记忆化搜索、动态规划
  * 
- * 反思：默认能想到的方法是双重循环，过程中拆链，然而时间复杂度必然不是最优的。
+ * 反思：状态转移方程很难想出，如果本题限制没有重复字符就好办了。
  */
 
 
