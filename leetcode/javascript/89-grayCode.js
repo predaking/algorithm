@@ -11,22 +11,25 @@
 /**
  * @description 格雷编码
  * @param {number} n
- * @return {number[]}
  */
 var grayCode = function(n) {
-    const arr = Array(2 * n).fill(0);
+    const arr = [0, 1];
+    if (n === 1) {
+        return arr;
+    }
 
-    for (let i = 0; i < n; ++i) {
-        arr[i] = (Math.pow(2, i) - 1);
-        arr[n + i] = (Math.pow(2, n) - Math.pow(2, i));
+    const len = Math.pow(2, n);
+
+    while (arr.length < len) {
+        const maxLen = arr.length * 2;
+        const _len = arr.length;
+        for (let j = _len; j < maxLen; ++j) {
+            arr.push((arr[2 * _len - 1 - j] + _len));
+        }
     }
 
     return arr;
 };
-
-console.log(grayCode(3));
-
-// [0,1,3,2,6,7,5,4]
 
 /**
  * 测试用例：
@@ -34,8 +37,20 @@ console.log(grayCode(3));
  */
 
 /**
- * 本题核心：记忆化搜索、动态规划
+ * 本题核心：无
  * 
- * 反思：状态转移方程很难想出，如果本题限制没有重复字符就好办了。
+ * 反思：当成找规律题来做了。先看n为1/2/3的情况，找出相应的规律。
+ * 官方解法为公式法，需要注意的是公式推导过程。
  */
 
+/**
+ * @description 官方解法
+ * @param {number} n
+ */
+var grayCode = function(n) {
+    const arr = [];
+    for (let i = 0; i < Math.pow(2, n); ++i) {
+        arr.push((i / 2) ^ i);
+    }
+    return arr;
+}
