@@ -24,12 +24,62 @@
  * @param {string} s
  */
 var numDecodings = function(s) {
+    const arr = [];
+    const strLen = str.length;
 
+    const calc = (_str) => {
+        const len = _str.length;
+        if (len === 0) {
+            arr.push(0);
+            return;
+        }
+
+        if (len === 1) {
+            arr.push(_str === '0' ? 0 : 1);
+            return;
+        }
+
+        if (len === 2) {
+            if (_str[0] === '0') {
+                arr.push(0);
+                return;
+            } else {
+                if (_str[1] === '0') {
+                    arr.push(1);
+                    return;
+                } else if (+_str > 26) {
+                    arr.push(1);
+                    return;
+                } else {
+                    arr.push(2);
+                    return;
+                }
+            }
+        }
+    }
+
+    let tmp = '';
+    let _len = 0;
+
+    while (_len < strLen) {
+        tmp = (str[strLen - _len - 1]) + tmp;
+        _len = tmp.length;
+
+        if (_len < 3) {
+            calc(tmp);
+        } else {
+            arr.push((arr[arr.length - 2] * ((+tmp.slice(0, 2) > 26 || +tmp.slice(0, 2) < 10) ? 0 : 1)) + (arr[arr.length - 1] * (tmp.slice(0, 1) === '0' ? 0 : 1)));
+        }
+    }
+
+    console.log('arr: ', arr);
+
+    return arr[arr.length - 1];
 };
 
 /**
  * 测试用例：
- * console.log(subsetsWithDup([1, 2, 2]));
+ * console.log(numDecodings('230')); // 3
  */
 
 /**
