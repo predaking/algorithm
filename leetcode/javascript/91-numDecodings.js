@@ -25,7 +25,7 @@
  */
 var numDecodings = function(s) {
     const arr = [];
-    const strLen = str.length;
+    const strLen = s.length;
 
     const calc = (_str) => {
         const len = _str.length;
@@ -45,7 +45,7 @@ var numDecodings = function(s) {
                 return;
             } else {
                 if (_str[1] === '0') {
-                    arr.push(1);
+                    arr.push(+_str[0] > 2 ? 0 : 1);
                     return;
                 } else if (+_str > 26) {
                     arr.push(1);
@@ -62,7 +62,7 @@ var numDecodings = function(s) {
     let _len = 0;
 
     while (_len < strLen) {
-        tmp = (str[strLen - _len - 1]) + tmp;
+        tmp = (s[strLen - _len - 1]) + tmp;
         _len = tmp.length;
 
         if (_len < 3) {
@@ -71,8 +71,6 @@ var numDecodings = function(s) {
             arr.push((arr[arr.length - 2] * ((+tmp.slice(0, 2) > 26 || +tmp.slice(0, 2) < 10) ? 0 : 1)) + (arr[arr.length - 1] * (tmp.slice(0, 1) === '0' ? 0 : 1)));
         }
     }
-
-    console.log('arr: ', arr);
 
     return arr[arr.length - 1];
 };
@@ -83,7 +81,11 @@ var numDecodings = function(s) {
  */
 
 /**
- * 本题核心：回溯
+ * 本题核心：动态规划
  * 
- * 反思：常规回溯思路，需要注意的是去重。
+ * 反思：编码方案可以拆解为两种方案的和，一种是开头一个数字的所有组合，另一种
+ * 是开头两个数字的组合。状态转移方程为：
+ * f(n) = f(n - 1) * c(n - 1) + f(n - 2) * c(n - 2)
+ * 其中系数c(n)表示开头的一个数或者两个数本身的组合方案数。整个过程需要注意
+ * 边界处理，并且递归容易超时。
  */
