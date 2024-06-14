@@ -37,9 +37,12 @@ var restoreIpAddresses = function(s) {
 
     const backTrack = () => {
         if (arr.length === 4) {
-            res.push([...arr]);
-            arr.length = 0;
-            _str = s;
+            const ip = arr.join('.');
+
+            if (ip.length - 3 === len) {
+                res.push(ip);
+                _str = s;
+            }
             return;
         }
 
@@ -52,20 +55,14 @@ var restoreIpAddresses = function(s) {
 
             const cur = _str.slice(0, j);
             const next = _str.slice(j);
-            if (+cur > 255 || cur.startsWith('0')) {
-                return;
-            }
-            if (arr.length === 3 && (next.length <= 0 || next.length > 3)) {
-                arr.length = 0;
-                _str = s;
-                backTrack(_str);
-                arr.pop();
+            if (+cur > 255 || (cur.startsWith('0') && cur !== '0')) {
                 return;
             }
             arr.push(cur);
             _str = next;
             backTrack(_str);
             arr.pop();
+            _str = cur + _str;
         }
     };
 
@@ -73,16 +70,16 @@ var restoreIpAddresses = function(s) {
     return res;
 };
 
-console.log(restoreIpAddresses('25425511135'));
+/**
+ * 测试用例：
+ * console.log(restoreIpAddresses('25425511135'));
+ */
 
 /**
- * 12: 3 3 3 3
- * 11: 2 3 3 3
- * 10: 2 3 2 3 | 1 3 3 3
- * 09: 2 3 3 1 | 2 2 2 3
- * 08: 3 3 1 1 | 3 2 2 1 | 2 2 2 2
- * 07: 3 2 1 1 | 2 2 2 1
- * 06: 3 1 1 1 | 2 2 1 1
- * 05: 2 1 1 1
- * 04: 1 1 1 1
+ * 本题核心：回溯
+ * 
+ * 反思：按照一个一个数进行添加并用.符号分割，看最终是否还有剩余的数，如果没有剩余的数，
+ * 则说明这个是一个有效的IP地址，否则不是。注意点有：
+ * 1、IP地址的长度是4，每个数的范围是0-255，所以最大长度是3，最小长度是1。
+ * 2、ip总长度不会低于4，不会高于12。
  */
