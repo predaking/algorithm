@@ -24,7 +24,6 @@ const Node3 = new TreeNode(1, null, Node2);
 /**
  * @description 二叉树的中序遍历
  * @param {TreeNode} root
- * @return {number[]}
  */
 var inorderTraversal = function(root) {
 	const res = [];

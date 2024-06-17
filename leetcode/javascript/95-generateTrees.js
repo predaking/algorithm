@@ -26,5 +26,43 @@
  * @param {number} n
  */
 var generateTrees = function(n) {
+    if (n === 0) {
+        return [];
+    }
 
+    const create = (left, right) => {
+        const arr = [];
+        if (left > right) {
+            arr.push(null);
+            return arr;
+        }
+
+        for (let i = left; i <= right; ++i) {
+            const leftTrees = create(left, i - 1);
+            const rightTrees = create(i + 1, right);
+
+            for (let leftTree of leftTrees) {
+                for (let rightTree of rightTrees) {
+                    const node = new TreeNode(i, leftTree, rightTree);
+                    arr.push(node);
+                }
+            }
+        }
+
+        return arr;
+    }
+
+    return create(1, n);
 };
+
+/**
+ * 测试用例：
+ * console.log(generateTrees(3));
+ */
+
+/**
+ * 本题核心：回溯
+ *
+ * 反思：总的来说仍然是回溯的思想，然而需要注意到的技巧是添加节点的时候
+ * 需要遍历左右子树的所有情况，而不是单纯的添加节点。思路优先于代码实现。
+ */
