@@ -13,24 +13,58 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
 /**
  * @description 验证二叉搜索树
  * @param {TreeNode} root
  */
 var isValidBST = function(root) {
+    const compare = (root, min, max) => {
+        if (!root) {
+            return true;
+        }
 
+        if (root.val >= max || root.val <= min) {
+            return false;
+        }
+
+        return compare(root.left, min, root.val) && compare(root.right, root.val, max);
+    }
+
+    return compare(root, -Infinity, Infinity);
 };
 
 /**
- * 测试用例：
- * console.log(isValidBST('aabcc', 'dbbca', 'aadbbcbcac')); // true
+ * const node = {
+    val: 2,
+    left: {
+        val: 1,
+        left: null,
+        right: null
+    },
+    right: {
+        val: 4,
+        left: {
+            val: 3,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 5,
+            left: null,
+            right: null
+        }
+    }
+};
  */
 
 /**
- * 本题核心： 动态规划
+ * 测试用例：
+ * console.log(isValidBST(node)); // true
+ */
+
+/**
+ * 本题核心：递归
  * 
- * 反思：f(i, j)表示s1的前i个字符和s2的前j个字符是否能交错组成s3的前i+j个字符。
- * 状态转移方程为：f(i, j) = f(i - 1, j) && s1[i - 1] === s3[i + j - 1] ||
- * f(i, j - 1) && s2[j - 1] === s3[i + j - 1]。这里的f(i, j)只与f(i - 1, j)
- * 和f(i, j - 1)有关，可以将二维数组优化为一维滚动数组。
+ * 反思：利用搜索树的特性，卡好边界条件，递归即可
  */
