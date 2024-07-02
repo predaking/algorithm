@@ -3,12 +3,12 @@
  * 2、遍历二叉树（前中后序、层级）
  * 3、平衡树判断
  * 4、等价树判断
+ * 5、线索二叉树（Morris遍历）
  */
 
 /**
  * @description 按照给点列表顺序构建二叉搜索树
  * @param {array} list 
- * @returns 结果一定是唯一的
  */
 function createTree(list) {
     var root = null;
@@ -69,6 +69,34 @@ function preorderTraverseTree(root) {
 }
 
 /**
+ * @description 先序遍历非递归
+ * @param {*} root 
+ */
+const preorderTraversal = (root) => {
+    const res = [];
+    const stack = [];
+
+    if (!root) {
+        return res;
+    }
+
+    stack.push(root);
+
+    while (stack.length) {
+        root = stack.pop();
+        res.push(root.val);
+        if (root.right) {
+            stack.push(root.right);
+        }
+        if (root.left) {
+            stack.push(root.left);
+        }
+    }
+
+    return res;
+}
+
+/**
  * @description 中序遍历
  * @param {object} root 
  */
@@ -85,6 +113,36 @@ function inorderTraverseTree(root) {
 }
 
 /**
+ * @description 中序遍历非递归
+ * @param {*} root 
+ */
+const inorderTraversal = (root) => {
+    const res = [];
+    const stack = [];
+
+    if (!root) {
+        return res;
+    }
+
+    let cur = root;
+
+    while (cur || stack.length) {
+       while (cur) {
+           stack.push(cur);
+           cur = cur.left;
+       }
+
+       cur = stack.pop();
+
+       res.push(cur.val);
+
+       cur = cur.right;
+    }
+
+    return res;
+}
+
+/**
  * @description 后序遍历
  * @param {object} root 
  */
@@ -98,6 +156,34 @@ function postorderTraverseTree(root) {
         ...postorderTraverseTree(root.right),
         root.value
     ];
+}
+
+/**
+ * @description 后序遍历非递归
+ * @param {*} root 
+ */
+const postorderTraversal = (root) => {
+    const res = [];
+    const stack = [];
+
+    if (!root) {
+        return res;
+    }
+
+    stack.push(root);
+
+    while (stack.length) {
+        root = stack.pop();
+        res.unshift(root.val);
+        if (root.left) {
+            stack.push(root.left);
+        }
+        if (root.right) {
+            stack.push(root.right);
+        }
+    }
+
+    return res;
 }
 
 /**
@@ -186,6 +272,10 @@ function judgeIsBalanceTree (root) {
 function judgeIsSameTree (root1, root2) {
     if (!root1 && !root2) {
         return true;
+    } else {
+        if (!root1 || !root2) {
+            return false;
+        }
     }
 
     return (
@@ -195,11 +285,22 @@ function judgeIsSameTree (root1, root2) {
     )
 }
 
+/**
+ * @description Morris遍历
+ * @param {*} root 
+ */
+const morrisTraversal = (root) => {
+
+}
+
 module.exports = {
     createTree,
     preorderTraverseTree,
+    preorderTraversal,
     inorderTraverseTree,
+    inorderTraversal,
     postorderTraverseTree,
+    postorderTraversal,
     levelTraverseTree,
     levelTraverseMultiTree,
     judgeIsBalanceTree,
