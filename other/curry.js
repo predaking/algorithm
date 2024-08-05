@@ -1,19 +1,21 @@
 /**
- * @description 无限累加柯里化
+ * @description 无限累加柯里化(该方法最后必须要再调用一次)
  */
 function curry() {
-    var args = Array.from(arguments);
+    const args = Array.from(arguments);
 
-    var add = function () {
-        args.push(...arguments);
-        return add;
+    const _add = (arr) => arr.reduce((a, b) => a + b, 0);
+
+    return function add () {
+        const _args = Array.from(arguments);
+
+        if (_args.length) {
+            args.push(..._args);
+            return add;
+        }
+
+        return _add(args);
     }
-
-    add.toString = function () {
-        return args.reduce((a, b) => a + b);
-    };
-
-    return add;
 }
 
-console.log(curry(5)(2)(8).toString())
+console.log(curry(5)(2, 3)());

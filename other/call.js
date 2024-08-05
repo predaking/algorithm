@@ -1,10 +1,9 @@
 /**
  * @description 自定义实现call方法（若禁用es6方法，则可以通过eval处理参数调用）
  */
-Function.prototype.call = function (context, ...args) {
-    var context = context || window;
+Function.prototype.call = function (context = window, ...args) {
     context.fn = this;
-    var result = context.fn(...args);
+    const result = context.fn(...args);
     delete context.fn;
     return result;
 }
