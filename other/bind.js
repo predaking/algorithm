@@ -1,33 +1,30 @@
 Function.prototype.bind = function (context, ...args) {
-    const self = this;
-    return function F() {
-        return self.apply(context, [...args, ...arguments]);
-    }
+    let func = this;
+    const F = function () {
+        // 如果是构造函数调用，那就不能改变this，需和原有bind行为保持一致
+        self = this instanceof F ? this : context;
+        return func.apply(self, [...args, ...arguments]);
+    };
+
+    // 保证原型链正常
+    F.prototype = func.prototype;
+
+    return F;
 }
 
-const obj = {
-    a: 1,
-    bar: function (a, b) {
-        return this.a + a + b;
-    }
+const Person = function (age, name) {
+    this.age = age;
+    this.name = name;
 }
 
-const obj2 = {
-    a: 2,
-    bar: function () {
-        return this.a;
-    }
+Person.prototype.intro = function () {
+    console.log(`I'm ${this.name}, ${this.age} years old`);
 }
 
-const Foo = function (a, b) {
-    this.a = a;
-    this.b = b;
-};
+const bindPerson = Person.bind(null, 12);
+const person = new bindPerson('foo');
 
-const foo = new Foo(1, 2);
+person.intro();
 
-foo.bar = function (...args) {
-    console.log('Foo.bar: ', ...args);
-}
 
-console.log('debug: ', obj.bar.bind(Foo, 5)(9));
+
