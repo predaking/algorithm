@@ -6,8 +6,8 @@ Function.prototype.bind = function (context, ...args) {
         return func.apply(self, [...args, ...arguments]);
     };
 
-    // 保证原型链正常
-    F.prototype = func.prototype;
+    // 保证通过new产生的实例能正确访问原型链上的属性与方法，同时还要保证修改其中任意一个不会影响到另一个
+    F.prototype = Object.create(func.prototype);
 
     return F;
 }
@@ -25,6 +25,8 @@ const bindPerson = Person.bind(null, 12);
 const person = new bindPerson('foo');
 
 person.intro();
+
+
 
 
 

@@ -12,9 +12,9 @@ function Girl () {
 // const girl = new Girl();
 
 function _new (Fn, args) {
-	const res = Object.create(Fn.prototype);
-	Fn.apply(res, args);
-	return res;
+	const obj = Object.create(Fn.prototype);
+	const res = Fn.apply(obj, args);
+	return res instanceof Object ? res : obj;
 }
 
 // const newGirl = _new (Girl);

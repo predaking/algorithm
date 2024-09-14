@@ -2,25 +2,22 @@
  * 深拷贝(考虑null，正则的情况)
  * @method deepClone
  * @param {object} obj
+ * @param hash
  */
-var deepClone = function (obj) {
-    if (typeof obj !== 'object') {
+const deepClone = function (obj, hash = new WeakMap()) {
+    if (typeof obj !== 'object' || obj === null) {
         return obj;
     }
 
-    const res = obj instanceof Array ? [] : {};
+    if (hash.get(obj)) {
+        return hash.get(obj);
+    }
 
-    for (key in obj) {
+    const res = Array.isArray(obj) ? [] : {};
+
+    for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
-            if (typeof obj[key] === 'object') {
-                if (obj[key] === null || obj[key] instanceof RegExp) {
-                    res[key] = obj[key];
-                } else {
-                    res[key] = deepClone(obj[key]);
-                }
-            } else {
-                res[key] = obj[key];
-            }
+            res[key] = deepClone(obj[key], hash);
         }
     }
 
