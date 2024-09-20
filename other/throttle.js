@@ -3,16 +3,22 @@
  */
 const throttle = (fn, duration = 500) => {
 	let timer = null;
+    let startTime = Date.now();
 
     return function () {
-        if (timer) {
-            return;
-        }
+        let curTime = Date.now();
+        const remain = duration - (curTime - startTime);
 
-        timer = setTimeout(() => {
+        clearTimeout(timer);
+
+        if (remain <= 0) {
             fn.apply(this, arguments);
-            clearTimeout(timer);
-            timer = null;
-        }, duration);
+            startTime = curTime;
+        } else {
+            timer = setTimeout(() => {
+                fn.apply(this, arguments);
+                clearTimeout(timer);
+            }, duration);
+        }
     }
 }
