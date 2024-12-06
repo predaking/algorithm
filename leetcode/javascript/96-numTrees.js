@@ -23,6 +23,8 @@ var numTrees = function(n) {
     return res[n];
 };
 
+console.log(numTrees(4)); // 5
+
 /**
  * 测试用例：
  * console.log(numTrees(3)); // 5

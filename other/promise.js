@@ -16,60 +16,38 @@ var promise3 = new Promise((resolve, reject) => {
     }, 4000);
 });
 
-// Promise
-//     .all([promise1, promise2, promise3])
-//     .then(res => {
-//         console.log('res:', res);
-//     }, err => {
-//         console.log('err: ', err);
-//     });
-
-// Promise
-//     .race([promise1, promise2, promise3])
-//     .then(res => {
-//         console.log('res:', res);
-//     }, err => {
-//         console.log('err: ', err);
-//     });
-
-// Promise
-//     .race([promise1, promise2, promise3])
-//     .then(res => {
-//         console.log(res);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-
 /**
  * @description 利用promise实现promise.all
  * @param {array} promiseList 
  */
 var promiseAll = promiseList => {
     var resolvedList = [];
+    var len = promiseList.length;
+    var counter = 0;
     return new Promise((resolve, reject) => {
-        if (!promiseList[Symbol.iterator]) {
-            reject("promiseList is not iterable");
+        if (typeof promiseList[Symbol.iterator] !== 'function') {
+            return reject("promiseList is not iterable");
         }
 
-        for (promise of promiseList) {
-            Promise.resolve(promise)
-                .then(
-                    res => {
-                        resolvedList.push(res);
-                        if (resolvedList.length === promiseList.length) {
-                            resolve(resolvedList);
-                        }
-                    }, 
-                    err => {
-                        reject(err);
-                    }
-                );
+        if (!len) {
+            return resolve([]);
+        }
+
+        for (let i = 0; i < len; ++i) {
+            Promise.resolve(promiseList[i]).then((res) => {
+                resolvedList[i] = res;
+                counter++;
+                if (counter === len) {
+                    resolve(resolvedList);
+                }
+            }).catch((err) => {
+                reject(err);
+            })
         }
     });
 }
 
-promiseAll({})
+promiseAll([promise1, promise2, promise3])
     .then(res => {
         console.log(res);
     }, err => {

@@ -4,6 +4,7 @@
  * 3、平衡树判断
  * 4、等价树判断
  * 5、线索二叉树（Morris遍历）
+ * 6、对称树判断
  */
 
 /**
@@ -216,6 +217,37 @@ function levelTraverseTree(root) {
 }
 
 /**
+ * @description 层级遍历（需要记录层数的递归式思路）
+ * @param {*} root 
+ */
+function levelTraverseTree2 (root) {
+    const res = [];
+
+    if (!root) {
+        return [];
+    }
+
+    const bfs = (root, level) => {
+        if (!root) {
+            return;
+        }
+
+        if (!res[level - 1]) {
+            res[level - 1] = [];
+        }
+
+        res[level - 1].push(root.val);
+
+        bfs(root.left, level + 1);
+        bfs(root.right, level + 1);
+    };
+
+    bfs(root, 1);
+
+    return res;
+}
+
+/**
  * @description 多叉树层级遍历
  * @param {object} root 
  */
@@ -293,6 +325,34 @@ const morrisTraversal = (root) => {
 
 }
 
+/**
+ * @description 对称二叉树
+ * @param {TreeNode} root
+ */
+const isSymmetric = (root) => {
+    if (!root) {
+        return true;
+    }
+
+    const isSame = (left, right) => {
+        if (!left && !right) {
+            return true;
+        }
+
+        if (!left || !right) {
+            return false;
+        }
+
+        if (left.val !== right.val) {
+            return false;
+        }
+
+        return isSame(left.left, right.right) && isSame(left.right, right.left);
+    }
+
+    return isSame(root.left, root.right);
+};
+
 module.exports = {
     createTree,
     preorderTraverseTree,
@@ -302,7 +362,9 @@ module.exports = {
     postorderTraverseTree,
     postorderTraversal,
     levelTraverseTree,
+    levelTraverseTree2,
     levelTraverseMultiTree,
     judgeIsBalanceTree,
-    judgeIsSameTree
+    judgeIsSameTree,
+    isSymmetric
 };
