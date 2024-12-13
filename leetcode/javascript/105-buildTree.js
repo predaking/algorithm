@@ -17,28 +17,46 @@
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-    const len = preorder.length;
-    const res = [];
-
-    if (!len) {
-        return res;
+    if (!preorder.length) {
+        return null;
     }
 
-    const _build = (index, _left, _right) => {
+    const _build = (list) => {
+        if (!list.length) {
+            return null;
+        }
+    
         let left = [];
         let right = [];
-        const root = preorder[0];
+        const rootValue = preorder.shift();
     
-        for (let i = 0; i < len; ++i) {
-            if (inorder[i] === root) {
-                res[0] = root;
-                left = inorder.slice(0, i);
-                right = inorder.slice(i + 1);
+        for (let i = 0; i < list.length; ++i) {
+            if (list[i] === rootValue) {
+                left = list.slice(0, i);
+                right = list.slice(i + 1);
             }
         }
+
+        return new TreeNode(rootValue, _build(left), _build(right));
     }
 
-    _build(0, left, right);
+    return _build(inorder);
 };
 
-console.log(buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]));
+// function TreeNode (val, left, right) {
+//     this.val = (val === undefined ? 0 : val)
+//     this.left = (left === undefined ? null : left)
+//     this.right = (right === undefined ? null : right)
+// }
+
+/**
+ * 测试用例
+ * console.log(buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]));
+ */
+
+/**
+ * 本题核心：递归
+ * 
+ * 要求输出树形数据结构其实是最简单的，如果需要将结果存放到数组中，
+ * 则需要多增加一个index参数，并且在合适的位置放入其左子树与右子树
+ */
