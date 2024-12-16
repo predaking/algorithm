@@ -43,11 +43,11 @@ var buildTree = function(preorder, inorder) {
     return _build(inorder);
 };
 
-// function TreeNode (val, left, right) {
-//     this.val = (val === undefined ? 0 : val)
-//     this.left = (left === undefined ? null : left)
-//     this.right = (right === undefined ? null : right)
-// }
+function TreeNode (val, left, right) {
+    this.val = (val === undefined ? 0 : val)
+    this.left = (left === undefined ? null : left)
+    this.right = (right === undefined ? null : right)
+}
 
 /**
  * 测试用例
