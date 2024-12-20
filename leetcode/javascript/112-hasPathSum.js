@@ -19,18 +19,20 @@
  * @return {boolean}
  */
 var hasPathSum = function(root, targetSum) {
+    if (!root) {
+        return false;
+    }
+
     let _hasPathSum = false;
     const _dfs = (root, sum) => {
-        if (!root) {
-            return;
-        }
-
         if (sum === targetSum) {
             _hasPathSum = true;
             return;
         }
 
-        console.log('sum: ', sum);
+        if (!root) {
+            return;
+        }
 
         for (let i = 0; i < 2; ++i) {
             sum += root.val;
@@ -65,4 +67,6 @@ const root = new TreeNode(5,
     ))
 );
 
-console.log(hasPathSum(root, 22))
+const root1 = new TreeNode(1, new TreeNode(2))
+
+console.log(hasPathSum(root1, 0))
