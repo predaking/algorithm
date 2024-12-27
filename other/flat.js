@@ -38,3 +38,7 @@ Array.prototype.flatArray = flatArray;
 const arr = [1, 2, [3, 4, [6], 8, [9, [10, 11, [12, 13, 14]]]]];
 
 console.log(arr.flatArray(Infinity));
+
+
+
+

@@ -68,7 +68,7 @@ const _isInstanceOf = (instance, Fn) => {
 
 const foo = new Foo(1);
 
-console.log(_isInstanceOf(null, Object));
+// console.log(_isInstanceOf(null, Object));
 
 /** deepClone */
 const deepClone = (obj) => {
@@ -121,7 +121,54 @@ const arr = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
 
 // console.log(flatten(arr, Infinity));
 
+/** curry */
+const curryAdd = function () {
+    const args1 = Array.from(arguments);
 
+    let args = [...args1];
+
+    const add = function () {
+        const args2 = Array.from(arguments);
+        if (args2.length) {
+            args.push(...args2);
+            return add;
+        }
+        return _add(args);
+    }
+
+    const _add = function () {
+        return args.reduce((prev, cur) => prev + cur, 0);
+    }
+
+    return add;
+}
+
+// console.log(curryAdd(4, 3)(2)());
+
+const quickSort = (arr) => {
+    const len = arr.length;
+    if (!len) {
+        return arr;
+    }
+
+    const pivot = arr[0];
+    let low = 0;
+    let high = len - 1;
+
+    const patition = (pivot, low, high) => {
+        while (arr[high] > pivot) {
+            high--;
+        }
+
+        [arr[low], arr[high]] = [arr[high], arr[low]];
+
+        while (arr[low] < pivot) {
+            low++;
+        }
+
+        []
+    }
+}
 
 
 
