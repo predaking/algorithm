@@ -24,8 +24,9 @@ var hasPathSum = function(root, targetSum) {
     }
 
     let _hasPathSum = false;
-    const _dfs = (root, sum) => {
-        if (sum === targetSum) {
+
+    const _dfs = (root, sum, parent) => {
+        if (sum === targetSum && (!parent.left && !parent.right)) {
             _hasPathSum = true;
             return;
         }
@@ -34,14 +35,18 @@ var hasPathSum = function(root, targetSum) {
             return;
         }
 
+        if (!sum) {
+            sum = 0;
+        }
+
         for (let i = 0; i < 2; ++i) {
             sum += root.val;
-            _dfs(i === 0 ? root.left : root.right, sum);
+            _dfs(i === 0 ? root.left : root.right, sum, root);
             sum -= root.val;
         }
     }
 
-    _dfs(root, 0);
+    _dfs(root);
 
     return _hasPathSum;
 };
@@ -67,6 +72,32 @@ const root = new TreeNode(5,
     ))
 );
 
-const root1 = new TreeNode(1, new TreeNode(2))
+const root1 = new TreeNode(1);
 
-console.log(hasPathSum(root1, 0))
+/**
+ * 测试用例
+ * console.log(hasPathSum(root, 22));
+ */
+
+/**
+ * 本题核心：递归
+ * 
+ * 逆向思维很重要，累加式的思路想的复杂了，用了内层递归。
+ * 还得处理好边界。下方递减式递归更容易理解
+ */
+
+/**
+ * @description 递减式递归
+ * @param {*} root 
+ * @param {*} targetSum 
+ */
+var hasPathSum = function(root, targetSum) {
+    if (root === null) {
+        return false;
+    }
+    targetSum -= root.val;
+    if (root.left === root.right) { // root 是叶子
+        return targetSum === 0;
+    }
+    return hasPathSum(root.left, targetSum) || hasPathSum(root.right, targetSum);
+};
