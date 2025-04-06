@@ -12,7 +12,38 @@
  * @return {number}
  */
 var minimumTotal = function(triangle) {
-    
+    const tmp = [];
+    const lenX = triangle.length;
+    let min = Infinity;
+    let sum = 0;
+
+    const backTrack = (x, y, xIndex) => {
+        if (tmp.length === lenX) {
+            min = Math.min(min, sum);
+            return;
+        }
+
+        for (let j = 0; j < triangle[xIndex].length; ++j) {
+            for (let i = x; i < lenX; ++i) {
+                const val = triangle[i][j];
+                if (val === undefined) {
+                    continue;
+                }
+                tmp.push(val);
+                sum += val;
+                backTrack(i + 1, j, xIndex);
+                tmp.pop();
+                sum -= val;
+            }
+            if (xIndex + 1 < triangle.length) {
+                xIndex += 1;
+            }
+        }
+    }
+
+    backTrack(0, 0, 0);
+
+    return min;
 };
 
 console.log(minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]));
