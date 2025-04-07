@@ -12,49 +12,53 @@
  * @return {number}
  */
 var minimumTotal = function(triangle) {
-    const tmp = [];
-    const lenX = triangle.length;
-    let min = Infinity;
-    let sum = 0;
+    const len = triangle.length;
+    let sum = Infinity;
 
-    const backTrack = (x, y, xIndex) => {
-        if (tmp.length === lenX) {
-            min = Math.min(min, sum);
-            return;
-        }
+    const dp = Array(len).fill(0).map(() => Array(len).fill(0));
 
-        for (let j = 0; j < triangle[xIndex].length; ++j) {
-            for (let i = x; i < lenX; ++i) {
-                const val = triangle[i][j];
-                if (val === undefined) {
-                    continue;
-                }
-                tmp.push(val);
-                sum += val;
-                backTrack(i + 1, j, xIndex);
-                tmp.pop();
-                sum -= val;
+    for (let i = 0; i < len; ++i) {
+        for (let j = 0; j <= i; ++j) {
+            if (i === 0) {
+                dp[i][j] = triangle[i][j];
+                continue;
             }
-            if (xIndex + 1 < triangle.length) {
-                xIndex += 1;
+            if (j === 0) {
+                dp[i][j] = dp[i - 1][j] + triangle[i][j];
+                continue;
             }
+            if (i === j) {
+                dp[i][j] = dp[i - 1][j - 1] + triangle[i][j];
+                continue;
+            }
+            dp[i][j] = (Math.min(dp[i - 1][j - 1], dp[i - 1][j])) + triangle[i][j];
         }
     }
 
-    backTrack(0, 0, 0);
+    for (let i = 0; i < dp[len - 1].length; ++i) {
+        sum = Math.min(sum, dp[len - 1][i]);
+    }
 
-    return min;
+    return sum;
 };
-
-console.log(minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]));
 
 /**
  * 测试用例：
- * console.log(getRow(5));
+ * console.log(minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]));
+ *    2
+ *   3 4
+ *  6 5 7
+ * 4 1 8 3
+ * 
+ *    0
+ *   1 2
+ *  3 4 5
+ * 6 7 8 9
  */
 
 /**
- * 本题核心：无
+ * 本题核心：动态规划、回溯
  *
- * 反思：理解杨辉三角的几条特性有助于拓展思维 
+ * 反思：动态规划需考虑到i === j的情况及边界情况；回溯虽然也能解决该问题，
+ * 但是极端情况下如面对全0三角形时，时间复杂度呈指数级增长，很容易超时
  */
