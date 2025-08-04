@@ -33,7 +33,19 @@ var flatArray = function (depth = 1) {
     }, []);
 }
 
+const flatObj = (obj) => {
+    if (!obj) {
+        return obj;
+    }
+
+    for (let [k, v] of Object.entries(obj)) {
+        
+    }
+}
+
 Array.prototype.flatArray = flatArray;
+
+Object.prototype.flatObj = flatObj;
 
 const arr = [1, 2, [3, 4, [6], 8, [9, [10, 11, [12, 13, 14]]]]];
 
